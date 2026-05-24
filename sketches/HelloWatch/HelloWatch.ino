@@ -490,8 +490,8 @@ void memory_tap(int16_t x, int16_t y) {
     draw_card(mem_second);
     mem_matched_pairs++;
     Serial.printf("MATCH! pairs=%d\n", mem_matched_pairs);
-    // Effect 14 = "Strong Buzz - 100%" — sustained, very noticeable
-    haptic_play(14);
+    // Effect 47 = "Buzz 1 - 100%" — longest, strongest ERM buzz in lib 1
+    haptic_play(47);
     mem_first = -1;
     mem_second = -1;
     if (mem_matched_pairs == MEM_N / 2) {
@@ -552,11 +552,11 @@ void setup() {
   // Haptic driver — needs PMU's BLDO2 powered first
   delay(20);
   if (HAPTIC.begin(&Wire)) {
-    HAPTIC.useLRA();                       // T-Watch-S3 uses an LRA actuator
-    HAPTIC.selectLibrary(6);               // ROM library tuned for LRA motors
-    HAPTIC.setMode(DRV2605_MODE_INTTRIG);  // play on .go()
+    HAPTIC.useERM();                       // T-Watch-S3 has an ERM motor (per LilyGo)
+    HAPTIC.selectLibrary(1);
+    HAPTIC.setMode(DRV2605_MODE_INTTRIG);
     haptic_ready = true;
-    Serial.println("Haptic ready (LRA, lib 6)");
+    Serial.println("Haptic ready (ERM, lib 1)");
   } else {
     Serial.println("Haptic init FAILED");
   }
