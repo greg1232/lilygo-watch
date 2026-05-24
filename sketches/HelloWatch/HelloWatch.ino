@@ -77,10 +77,12 @@ void loop() {
       else if (current_app == APP_VOICE) app_switch(APP_CLOCK);
       break;
     case GESTURE_SWIPE_UP:
-      if (current_app == APP_CLOCK) app_switch(APP_VOICE);
+      if      (current_app == APP_CLOCK) app_switch(APP_VOICE);
+      else if (current_app == APP_ABOUT) app_switch(APP_CLOCK);
       break;
     case GESTURE_SWIPE_DOWN:
-      if (current_app == APP_VOICE) app_switch(APP_CLOCK);
+      if      (current_app == APP_VOICE) app_switch(APP_CLOCK);
+      else if (current_app == APP_CLOCK) app_switch(APP_ABOUT);
       break;
     case GESTURE_TAP:
       Serial.printf("TAP at (%d, %d)\n", tx, ty);

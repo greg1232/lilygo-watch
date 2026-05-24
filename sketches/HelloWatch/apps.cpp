@@ -8,15 +8,17 @@ void app_enter_current() {
     case APP_CLOCK:  clock_enter();  break;
     case APP_MEMORY: memory_enter(); break;
     case APP_VOICE:  voice_enter();  break;
+    case APP_ABOUT:  about_enter();  break;
   }
 }
 
 void app_switch(AppId next) {
   if (next == current_app) return;
   current_app = next;
-  const char *name = (next == APP_CLOCK) ? ">> Clock"
+  const char *name = (next == APP_CLOCK)  ? ">> Clock"
                    : (next == APP_MEMORY) ? ">> Memory"
-                                          : ">> Voice";
+                   : (next == APP_VOICE)  ? ">> Voice"
+                                          : ">> About";
   Serial.println(name);
   app_enter_current();
 }
@@ -26,6 +28,7 @@ void app_tick() {
     case APP_CLOCK:  clock_tick();  break;
     case APP_MEMORY: memory_tick(); break;
     case APP_VOICE:  voice_tick();  break;
+    case APP_ABOUT:  about_tick();  break;
   }
 }
 
