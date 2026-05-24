@@ -1,4 +1,4 @@
-# How the Jabros Built a Watch
+# How the Jasbros Built a Watch
 
 A picture book.
 
@@ -12,7 +12,7 @@ _For a 6-year-old who likes robots._
 
 Tejas and his brother build robots.
 
-They call themselves **the Jabros**.
+They call themselves **the Jasbros**.
 
 One day they said, "Let's build a watch!"
 
@@ -104,13 +104,13 @@ Press the **crown** on the side — the watch is awake again!
 
 ## Page 9 — Their Name on It
 
-![JABROS about screen](pictures/page-09.svg)
+![JASBROS about screen](pictures/page-09.svg)
 
 The brothers put their name on the watch.
 
 Swipe down on the screen, and a little robot pops up:
 
-**JABROS™ — by Tejas Diamos.**
+**JASBROS™ — by Tejas Diamos.**
 
 ---
 

@@ -52,11 +52,11 @@ static void draw_centered_str(int16_t y, const char *s, uint8_t size, uint16_t c
 void about_enter() {
   gfx->fillScreen(COLOR_BLACK);
 
-  // Brand title "JABROS" in the bold mono font, centred horizontally.
+  // Brand title "JASBROS" in the bold mono font, centred horizontally.
   gfx->setFont(&FreeMono24pt7b);
   gfx->setTextSize(1);
   gfx->setTextColor(COLOR_CYAN);
-  const char *brand = "JABROS";
+  const char *brand = "JASBROS";
   int16_t bx, by;
   uint16_t bw, bh;
   gfx->getTextBounds(brand, 0, 45, &bx, &by, &bw, &bh);
@@ -82,7 +82,7 @@ void about_enter() {
   draw_centered_str(208, "the world by building",   1, COLOR_GREY);
   draw_centered_str(221, "advanced robots.",        1, COLOR_GREY);
 
-  Serial.println("About: JABROS™ by Tejas Diamos");
+  Serial.println("About: JASBROS™ by Tejas Diamos");
 }
 
 void about_tick() {

@@ -1,17 +1,17 @@
 # Books
 
-A children's book about the watch the Jabros built.
+A children's book about the watch the Jasbros built.
 
 ## Contents
 
-- **[how-the-jabros-built-a-watch.md](how-the-jabros-built-a-watch.md)** — 10-page picture book for a 6-year-old. Tells the story of building the watch piece by piece, with each page matching one feature in the code.
+- **[how-the-jasbros-built-a-watch.md](how-the-jasbros-built-a-watch.md)** — 10-page picture book for a 6-year-old. Tells the story of building the watch piece by piece, with each page matching one feature in the code.
 - **[pictures/](pictures/)** — one SVG illustration per page, embedded in the book.
 - **[print.css](print.css)** — page-break-aware stylesheet used when generating the printable PDF.
 - **[make_pdf.sh](make_pdf.sh)** — converts the markdown + SVGs into a single printable PDF.
 
 ## Reading on screen
 
-GitHub renders the markdown and SVGs inline. Just open `how-the-jabros-built-a-watch.md`.
+GitHub renders the markdown and SVGs inline. Just open `how-the-jasbros-built-a-watch.md`.
 
 ## Printing
 
@@ -21,7 +21,7 @@ Generate a PDF with:
 ./make_pdf.sh
 ```
 
-This produces `how-the-jabros-built-a-watch.pdf` in this directory (about 350 KB, 10 pages, US Letter, with each story page on its own sheet).
+This produces `how-the-jasbros-built-a-watch.pdf` in this directory (about 350 KB, 10 pages, US Letter, with each story page on its own sheet).
 
 ### Requirements
 

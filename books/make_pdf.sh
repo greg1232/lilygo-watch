@@ -12,7 +12,7 @@
 #   - Google Chrome   any recent version
 #
 # Output:
-#   how-the-jabros-built-a-watch.pdf  (in this directory)
+#   how-the-jasbros-built-a-watch.pdf  (in this directory)
 #
 # Tuning:
 #   To print a different book file, pass it as the first argument:
@@ -22,7 +22,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-INPUT="${1:-how-the-jabros-built-a-watch.md}"
+INPUT="${1:-how-the-jasbros-built-a-watch.md}"
 BASE="${INPUT%.md}"
 HTML="${BASE}.html"
 PDF="${BASE}.pdf"
@@ -58,7 +58,7 @@ fi
 echo "Rendering $INPUT → $HTML ..."
 pandoc "$INPUT" \
   --standalone \
-  --metadata "title=How the Jabros Built a Watch" \
+  --metadata "title=How the Jasbros Built a Watch" \
   --css=print.css \
   --to=html5 \
   --embed-resources \

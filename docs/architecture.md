@@ -15,7 +15,7 @@ apps.{h,cpp}          — AppId enum + current-app dispatcher
 app_clock.cpp         — digital Pacific-time clock
 app_memory.cpp        — memory-match game
 app_voice.cpp         — record-then-playback voice memo
-app_about.cpp         — JABROS branding screen
+app_about.cpp         — JASBROS branding screen
 colors.h              — RGB565 palette (header-only)
 FreeMono24pt7b.h      — bundled Adafruit font (used by clock + about)
 ```

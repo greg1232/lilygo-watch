@@ -7,7 +7,7 @@ Arduino sketches for the LilyGo T-Watch S3 (ESP32-S3, 240×240 ST7789, FT6336U t
 - **Clock** — 12-hour Pacific time (DST aware), date, top-right battery indicator.
 - **Memory game** — 4×3 grid, 6 hand-drawn symbol pairs, haptic buzz on match, rainbow celebration on win.
 - **Voice memo** — 5-second mic record + speaker playback via I²S.
-- **About** — JABROS branding, robot mascot, brothers' bio.
+- **About** — JASBROS branding, robot mascot, brothers' bio.
 
 Navigation:
 ```

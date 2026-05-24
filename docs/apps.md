@@ -152,7 +152,7 @@ Static brand screen.
 
 ```
 +--------------------------------+
-|         JABROS  ™              |   bold cyan title + small TM superscript
+|         JASBROS  ™              |   bold cyan title + small TM superscript
 |                                |
 |         .--.--.                |   red antenna tips
 |         |o  o|                 |   grey head + cyan eyes

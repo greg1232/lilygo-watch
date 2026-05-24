@@ -5,8 +5,8 @@
   <rect x="100" y="50" width="200" height="220" rx="20" fill="#1A1A2A" stroke="#555" stroke-width="3"/>
   <rect x="112" y="62" width="176" height="196" rx="6" fill="#000"/>
 
-  <!-- JABROS title -->
-  <text x="195" y="100" text-anchor="middle" font-size="32" font-weight="bold" fill="#00CCFF" font-family="monospace">JABROS</text>
+  <!-- JASBROS title -->
+  <text x="195" y="100" text-anchor="middle" font-size="32" font-weight="bold" fill="#00CCFF" font-family="monospace">JASBROS</text>
   <text x="265" y="80" text-anchor="middle" font-size="11" fill="#888" font-family="monospace">TM</text>
 
   <!-- Robot mascot in middle -->
@@ -39,5 +39,5 @@
   <text x="200" y="260" text-anchor="middle" font-size="10" fill="#999">by building robots.</text>
 
   <!-- Title (outside the watch frame) -->
-  <text x="200" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="white">Made by the Jabros</text>
+  <text x="200" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="white">Made by the Jasbros</text>
 </svg>

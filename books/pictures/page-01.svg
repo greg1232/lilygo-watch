@@ -53,5 +53,5 @@
   <line x1="190" y1="256" x2="210" y2="256" stroke="#3CB043" stroke-width="2"/>
 
   <!-- Title text -->
-  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">The Jabros</text>
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">The Jasbros</text>
 </svg>
