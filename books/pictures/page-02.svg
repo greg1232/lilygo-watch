@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#F0E8D6"/>
+
+  <!-- Table -->
+  <rect x="0" y="240" width="400" height="60" fill="#A67B5B"/>
+  <line x1="0" y1="240" x2="400" y2="240" stroke="#5C3D24" stroke-width="2"/>
+
+  <!-- Open box -->
+  <!-- Box back flap -->
+  <polygon points="80,140 320,140 300,90 100,90" fill="#C19A6B" stroke="#5C3D24" stroke-width="2"/>
+  <!-- Box left flap -->
+  <polygon points="80,140 100,90 100,210 80,240" fill="#A67B5B" stroke="#5C3D24" stroke-width="2"/>
+  <!-- Box right flap -->
+  <polygon points="320,140 300,90 300,210 320,240" fill="#A67B5B" stroke="#5C3D24" stroke-width="2"/>
+  <!-- Box inside (front) -->
+  <rect x="100" y="140" width="200" height="100" fill="#E0C9A0" stroke="#5C3D24" stroke-width="2"/>
+
+  <!-- Watch screen part -->
+  <rect x="120" y="160" width="55" height="60" rx="8" fill="#1A1A2E" stroke="#444" stroke-width="2"/>
+  <rect x="125" y="165" width="45" height="50" rx="3" fill="#0A0A1A"/>
+
+  <!-- Crown button -->
+  <circle cx="205" cy="195" r="14" fill="#D4AF37" stroke="#7B6019" stroke-width="2"/>
+  <circle cx="205" cy="195" r="6" fill="#7B6019"/>
+  <text x="205" y="200" text-anchor="middle" font-size="10" fill="#D4AF37">+</text>
+
+  <!-- Battery (coin shape) -->
+  <ellipse cx="260" cy="195" rx="20" ry="8" fill="#999"/>
+  <rect x="240" y="187" width="40" height="14" fill="#BBB" stroke="#444" stroke-width="1"/>
+  <ellipse cx="260" cy="187" rx="20" ry="6" fill="#DDD" stroke="#444" stroke-width="1"/>
+  <text x="260" y="192" text-anchor="middle" font-size="7" fill="#444">+</text>
+
+  <!-- Sparkle / new -->
+  <text x="350" y="80" text-anchor="middle" font-size="20" fill="#FFAA00">✦</text>
+  <text x="60" y="100" text-anchor="middle" font-size="16" fill="#FFAA00">✦</text>
+  <text x="370" y="160" text-anchor="middle" font-size="14" fill="#FFAA00">✦</text>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">A box of parts!</text>
+</svg>

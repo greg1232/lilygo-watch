@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#1A1A3A"/>
+
+  <!-- Stars in background -->
+  <circle cx="50" cy="60" r="2" fill="white"/>
+  <circle cx="350" cy="80" r="2" fill="white"/>
+  <circle cx="80" cy="200" r="1.5" fill="white"/>
+  <circle cx="370" cy="240" r="2" fill="white"/>
+  <circle cx="30" cy="180" r="1.5" fill="white"/>
+
+  <!-- Chip (brain) on the left -->
+  <g transform="translate(100, 150)">
+    <!-- Legs -->
+    <g stroke="#D4AF37" stroke-width="2">
+      <line x1="-30" y1="-20" x2="-40" y2="-20"/>
+      <line x1="-30" y1="-10" x2="-40" y2="-10"/>
+      <line x1="-30" y1="0" x2="-40" y2="0"/>
+      <line x1="-30" y1="10" x2="-40" y2="10"/>
+      <line x1="-30" y1="20" x2="-40" y2="20"/>
+      <line x1="30" y1="-20" x2="40" y2="-20"/>
+      <line x1="30" y1="-10" x2="40" y2="-10"/>
+      <line x1="30" y1="0" x2="40" y2="0"/>
+      <line x1="30" y1="10" x2="40" y2="10"/>
+      <line x1="30" y1="20" x2="40" y2="20"/>
+    </g>
+    <!-- Body -->
+    <rect x="-30" y="-25" width="60" height="50" rx="3" fill="#222" stroke="#666" stroke-width="1"/>
+    <!-- Smiley face -->
+    <circle cx="-12" cy="-8" r="3" fill="#00FF88"/>
+    <circle cx="12" cy="-8" r="3" fill="#00FF88"/>
+    <path d="M-12 10 Q0 20 12 10" stroke="#00FF88" stroke-width="2" fill="none"/>
+    <!-- BRAIN label -->
+    <text x="0" y="-32" text-anchor="middle" font-size="9" fill="#00FF88">brain</text>
+    <!-- Glow -->
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
+    <circle cx="0" cy="0" r="65" fill="none" stroke="#00FF88" stroke-width="1" opacity="0.2"/>
+  </g>
+
+  <!-- Lightning bolt connecting brain to screen -->
+  <polygon points="160,150 200,140 185,150 210,160 170,165" fill="#FFE066"/>
+
+  <!-- Watch screen on right (lit up!) -->
+  <g transform="translate(280, 150)">
+    <!-- Watch body -->
+    <rect x="-45" y="-55" width="90" height="110" rx="14" fill="#2A2A2A" stroke="#555" stroke-width="2"/>
+    <!-- Crown -->
+    <rect x="45" y="-10" width="6" height="14" fill="#888"/>
+    <!-- Screen -->
+    <rect x="-38" y="-48" width="76" height="96" rx="6" fill="#FFFFFF"/>
+    <!-- HELLO text -->
+    <text x="0" y="-15" text-anchor="middle" font-size="11" font-weight="bold" fill="#00AA66">HELLO</text>
+    <text x="0" y="0" text-anchor="middle" font-size="9" font-weight="bold" fill="#00AA66">T-WATCH</text>
+    <!-- Sun rays from screen -->
+    <g stroke="#FFE066" stroke-width="2" stroke-linecap="round">
+      <line x1="-60" y1="-60" x2="-70" y2="-70"/>
+      <line x1="60" y1="-60" x2="70" y2="-70"/>
+      <line x1="-60" y1="60" x2="-70" y2="70"/>
+      <line x1="60" y1="60" x2="70" y2="70"/>
+      <line x1="0" y1="-70" x2="0" y2="-82"/>
+      <line x1="0" y1="60" x2="0" y2="72"/>
+      <line x1="-70" y1="0" x2="-82" y2="0"/>
+      <line x1="70" y1="0" x2="82" y2="0"/>
+    </g>
+  </g>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFE066">The eye lights up!</text>
+</svg>

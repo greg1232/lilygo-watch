@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#FFF4D6"/>
+
+  <!-- Floor line -->
+  <line x1="0" y1="280" x2="400" y2="280" stroke="#C9A66B" stroke-width="3"/>
+
+  <!-- Brother 1 (Tejas) on left -->
+  <ellipse cx="120" cy="160" rx="38" ry="45" fill="#FFD4A6"/>
+  <!-- Hair -->
+  <path d="M82 145 Q120 100 158 145 Q150 125 120 118 Q90 125 82 145 Z" fill="#3B2A1A"/>
+  <!-- Eyes -->
+  <circle cx="108" cy="160" r="4" fill="#1A1A1A"/>
+  <circle cx="132" cy="160" r="4" fill="#1A1A1A"/>
+  <circle cx="109" cy="158" r="1.5" fill="white"/>
+  <circle cx="133" cy="158" r="1.5" fill="white"/>
+  <!-- Smile -->
+  <path d="M105 178 Q120 192 135 178" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Body -->
+  <rect x="88" y="200" width="64" height="75" rx="10" fill="#5BB3E8"/>
+  <!-- Arm reaching to robot -->
+  <rect x="148" y="215" width="42" height="14" rx="7" fill="#FFD4A6"/>
+
+  <!-- Brother 2 on right -->
+  <ellipse cx="280" cy="160" rx="38" ry="45" fill="#FFE0B8"/>
+  <!-- Hair -->
+  <path d="M242 145 Q280 102 318 145 Q310 122 280 118 Q250 122 242 145 Z" fill="#1A1A1A"/>
+  <!-- Eyes -->
+  <circle cx="268" cy="160" r="4" fill="#1A1A1A"/>
+  <circle cx="292" cy="160" r="4" fill="#1A1A1A"/>
+  <circle cx="269" cy="158" r="1.5" fill="white"/>
+  <circle cx="293" cy="158" r="1.5" fill="white"/>
+  <!-- Smile -->
+  <path d="M265 178 Q280 192 295 178" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Body -->
+  <rect x="248" y="200" width="64" height="75" rx="10" fill="#6BCB77"/>
+  <!-- Arm reaching to robot -->
+  <rect x="210" y="215" width="42" height="14" rx="7" fill="#FFE0B8"/>
+
+  <!-- Robot in middle, lower -->
+  <!-- Antennas -->
+  <line x1="190" y1="225" x2="190" y2="210" stroke="#444" stroke-width="3"/>
+  <line x1="210" y1="225" x2="210" y2="210" stroke="#444" stroke-width="3"/>
+  <circle cx="190" cy="208" r="4" fill="#FF4444"/>
+  <circle cx="210" cy="208" r="4" fill="#FF4444"/>
+  <!-- Head -->
+  <rect x="172" y="225" width="56" height="40" rx="6" fill="#C8CDD3" stroke="#444" stroke-width="2"/>
+  <!-- Eyes -->
+  <circle cx="187" cy="242" r="6" fill="#00BFFF"/>
+  <circle cx="213" cy="242" r="6" fill="#00BFFF"/>
+  <circle cx="188" cy="240" r="2" fill="white"/>
+  <circle cx="214" cy="240" r="2" fill="white"/>
+  <!-- Mouth -->
+  <line x1="190" y1="256" x2="210" y2="256" stroke="#3CB043" stroke-width="2"/>
+
+  <!-- Title text -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">The Jabros</text>
+</svg>

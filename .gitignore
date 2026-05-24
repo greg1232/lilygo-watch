@@ -11,6 +11,10 @@ LilyGoLib/
 # macOS
 .DS_Store
 
+# Book build artifacts
+books/*.pdf
+books/*.html
+
 # Editor metadata
 .vscode/
 .idea/

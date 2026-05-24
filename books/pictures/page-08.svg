@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#1A1A3A"/>
+
+  <!-- Stars -->
+  <text x="50" y="80" font-size="14" fill="white">✦</text>
+  <text x="340" y="100" font-size="12" fill="white">✦</text>
+  <text x="40" y="200" font-size="10" fill="white">✦</text>
+  <text x="370" y="220" font-size="14" fill="white">✦</text>
+
+  <!-- Sleepy watch on left -->
+  <g transform="translate(110, 170)">
+    <rect x="-45" y="-60" width="90" height="120" rx="16" fill="#222" stroke="#555" stroke-width="2"/>
+    <rect x="-38" y="-53" width="76" height="106" rx="6" fill="#0A0A0A"/>
+    <!-- Closed eyes -->
+    <path d="M-25 -15 Q-15 -10 -5 -15" stroke="#666" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M5 -15 Q15 -10 25 -15" stroke="#666" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Sleeping mouth -->
+    <ellipse cx="0" cy="15" rx="6" ry="3" fill="#444"/>
+    <!-- ZZZ -->
+    <text x="35" y="-40" font-size="18" fill="white" font-weight="bold">z</text>
+    <text x="50" y="-55" font-size="22" fill="white" font-weight="bold">z</text>
+    <text x="70" y="-70" font-size="26" fill="white" font-weight="bold">z</text>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(200, 150)">
+    <path d="M-20 0 L20 0" stroke="#FFE066" stroke-width="3"/>
+    <polygon points="20,-6 30,0 20,6" fill="#FFE066"/>
+    <text x="0" y="-15" text-anchor="middle" font-size="12" fill="#FFE066">press!</text>
+  </g>
+
+  <!-- Awake watch on right with hand pressing crown -->
+  <g transform="translate(290, 170)">
+    <rect x="-45" y="-60" width="90" height="120" rx="16" fill="#222" stroke="#888" stroke-width="2"/>
+    <rect x="-38" y="-53" width="76" height="106" rx="6" fill="#0A1530"/>
+    <!-- Open eyes -->
+    <circle cx="-15" cy="-18" r="6" fill="#00FF66"/>
+    <circle cx="-13" cy="-20" r="2" fill="white"/>
+    <circle cx="15" cy="-18" r="6" fill="#00FF66"/>
+    <circle cx="17" cy="-20" r="2" fill="white"/>
+    <!-- Smile -->
+    <path d="M-12 8 Q0 18 12 8" stroke="#00FF66" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Crown -->
+    <rect x="45" y="-8" width="8" height="16" fill="#D4AF37" stroke="#7B6019"/>
+    <!-- Star burst around crown -->
+    <g stroke="#FFE066" stroke-width="2" stroke-linecap="round">
+      <line x1="55" y1="0" x2="68" y2="0"/>
+      <line x1="55" y1="0" x2="65" y2="-10"/>
+      <line x1="55" y1="0" x2="65" y2="10"/>
+      <line x1="55" y1="0" x2="63" y2="-15"/>
+      <line x1="55" y1="0" x2="63" y2="15"/>
+    </g>
+    <!-- Finger -->
+    <ellipse cx="75" cy="0" rx="14" ry="8" fill="#FFD4A6" stroke="#B8835C" stroke-width="1.5"/>
+  </g>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFE066">Sleep, then Wake!</text>
+</svg>

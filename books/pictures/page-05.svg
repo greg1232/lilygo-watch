@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#FFF4D6"/>
+
+  <!-- Watch frame containing memory grid -->
+  <rect x="80" y="60" width="240" height="210" rx="20" fill="#1A1A2A" stroke="#444" stroke-width="3"/>
+  <rect x="92" y="72" width="216" height="186" rx="4" fill="#000"/>
+
+  <!-- 4x3 grid of cards. Card size: ~52w x 60h with small gaps -->
+  <!-- Row 1 -->
+  <!-- Heart card (face up) -->
+  <g transform="translate(96, 76)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <!-- Heart -->
+    <path d="M25 45 C25 45 8 32 8 22 C8 16 13 12 18 12 C22 12 25 14 25 18 C25 14 28 12 32 12 C37 12 42 16 42 22 C42 32 25 45 25 45 Z" fill="#FF4444"/>
+  </g>
+  <!-- Card back -->
+  <g transform="translate(150, 76)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+    <circle cx="25" cy="29" r="18" fill="none" stroke="#444" stroke-width="1"/>
+  </g>
+  <!-- Star card -->
+  <g transform="translate(204, 76)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <polygon points="25,12 28,24 40,24 30,32 33,44 25,37 17,44 20,32 10,24 22,24" fill="#FFE066"/>
+  </g>
+  <!-- Card back -->
+  <g transform="translate(258, 76)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+    <circle cx="25" cy="29" r="18" fill="none" stroke="#444" stroke-width="1"/>
+  </g>
+
+  <!-- Row 2 -->
+  <!-- Sun card -->
+  <g transform="translate(96, 138)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <circle cx="25" cy="29" r="10" fill="#FF8C00"/>
+    <g stroke="#FF8C00" stroke-width="2" stroke-linecap="round">
+      <line x1="25" y1="13" x2="25" y2="8"/>
+      <line x1="25" y1="45" x2="25" y2="50"/>
+      <line x1="9" y1="29" x2="4" y2="29"/>
+      <line x1="41" y1="29" x2="46" y2="29"/>
+      <line x1="14" y1="18" x2="10" y2="14"/>
+      <line x1="36" y1="18" x2="40" y2="14"/>
+      <line x1="14" y1="40" x2="10" y2="44"/>
+      <line x1="36" y1="40" x2="40" y2="44"/>
+    </g>
+  </g>
+  <!-- Moon card -->
+  <g transform="translate(150, 138)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <circle cx="25" cy="29" r="13" fill="#EEEEEE"/>
+    <circle cx="30" cy="26" r="11" fill="#000"/>
+  </g>
+  <!-- Card back -->
+  <g transform="translate(204, 138)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+    <circle cx="25" cy="29" r="18" fill="none" stroke="#444" stroke-width="1"/>
+  </g>
+  <!-- Diamond card -->
+  <g transform="translate(258, 138)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <polygon points="25,12 40,29 25,46 10,29" fill="#B040FF"/>
+  </g>
+
+  <!-- Row 3 - all card backs -->
+  <g transform="translate(96, 200)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+  </g>
+  <!-- Clover card (face up) -->
+  <g transform="translate(150, 200)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#000" stroke="#888"/>
+    <circle cx="18" cy="22" r="6" fill="#3CB043"/>
+    <circle cx="32" cy="22" r="6" fill="#3CB043"/>
+    <circle cx="25" cy="14" r="6" fill="#3CB043"/>
+    <circle cx="25" cy="30" r="6" fill="#3CB043"/>
+    <polygon points="23,38 27,38 25,48" fill="#3CB043"/>
+  </g>
+  <g transform="translate(204, 200)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+  </g>
+  <g transform="translate(258, 200)">
+    <rect x="0" y="0" width="50" height="58" rx="3" fill="#18234A" stroke="#3a3a3a"/>
+    <circle cx="25" cy="29" r="4" fill="#888"/>
+    <circle cx="25" cy="29" r="11" fill="none" stroke="#888" stroke-width="1"/>
+  </g>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">Find the Matches!</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#FFF4D6"/>
+
+  <!-- Arm -->
+  <rect x="80" y="160" width="240" height="80" rx="40" fill="#FFD4A6" stroke="#B8835C" stroke-width="2"/>
+  <!-- Hand suggestion (fingers) -->
+  <rect x="60" y="170" width="30" height="20" rx="10" fill="#FFD4A6" stroke="#B8835C" stroke-width="2"/>
+
+  <!-- Watch on wrist -->
+  <rect x="150" y="120" width="100" height="120" rx="18" fill="#1A1A2A" stroke="#444" stroke-width="3"/>
+  <rect x="158" y="128" width="84" height="104" rx="6" fill="#000"/>
+  <!-- Watch face shows a match (two hearts) -->
+  <path d="M180 175 C180 175 168 162 168 152 C168 147 172 144 176 144 C179 144 180 146 180 149 C180 146 181 144 184 144 C188 144 192 147 192 152 C192 162 180 175 180 175 Z" fill="#FF4444"/>
+  <path d="M220 175 C220 175 208 162 208 152 C208 147 212 144 216 144 C219 144 220 146 220 149 C220 146 221 144 224 144 C228 144 232 147 232 152 C232 162 220 175 220 175 Z" fill="#FF4444"/>
+  <text x="200" y="205" text-anchor="middle" font-size="11" fill="#00FF66" font-weight="bold">MATCH!</text>
+
+  <!-- Watch strap -->
+  <rect x="160" y="240" width="80" height="40" rx="6" fill="#444"/>
+
+  <!-- Buzz lines (squiggly) -->
+  <g stroke="#FFAA00" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M260 100 Q275 95 280 85"/>
+    <path d="M270 130 Q295 130 305 120"/>
+    <path d="M275 160 Q300 160 315 155"/>
+    <path d="M270 195 Q295 200 310 195"/>
+    <path d="M260 220 Q280 230 290 240"/>
+    <!-- left side -->
+    <path d="M140 100 Q125 95 120 85"/>
+    <path d="M130 130 Q105 130 95 120"/>
+    <path d="M125 160 Q100 160 85 155"/>
+    <path d="M130 195 Q105 200 90 195"/>
+    <path d="M140 220 Q120 230 110 240"/>
+  </g>
+
+  <!-- BZZT text -->
+  <text x="200" y="80" text-anchor="middle" font-size="28" font-weight="bold" fill="#FFAA00">BZZZT!</text>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">A Friendly Buzz</text>
+</svg>

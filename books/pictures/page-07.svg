@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Comic Sans MS, sans-serif">
+  <rect width="400" height="300" fill="#EAF4FB"/>
+
+  <!-- Child on left -->
+  <g transform="translate(70, 160)">
+    <ellipse cx="0" cy="0" rx="30" ry="36" fill="#FFD4A6"/>
+    <path d="M-30 -10 Q0 -45 30 -10 Q22 -28 0 -32 Q-22 -28 -30 -10 Z" fill="#3B2A1A"/>
+    <circle cx="-9" cy="0" r="3" fill="#1A1A1A"/>
+    <circle cx="9" cy="0" r="3" fill="#1A1A1A"/>
+    <ellipse cx="0" cy="15" rx="7" ry="5" fill="#222"/>
+    <ellipse cx="0" cy="15" rx="5" ry="3" fill="#FF6B6B"/>
+    <!-- Body -->
+    <rect x="-25" y="35" width="50" height="60" rx="8" fill="#5BB3E8"/>
+  </g>
+
+  <!-- Watch in middle -->
+  <g transform="translate(200, 165)">
+    <rect x="-40" y="-50" width="80" height="100" rx="14" fill="#1A1A2A" stroke="#444" stroke-width="2"/>
+    <rect x="-34" y="-44" width="68" height="88" rx="4" fill="#000"/>
+    <!-- Voice Memo label -->
+    <text x="0" y="-30" text-anchor="middle" font-size="9" fill="white">Voice Memo</text>
+    <!-- Big red record button -->
+    <circle cx="0" cy="0" r="22" fill="#FF4444" stroke="white" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-size="10" font-weight="bold" fill="white">REC</text>
+    <text x="0" y="32" text-anchor="middle" font-size="7" fill="#999">tap to record</text>
+  </g>
+
+  <!-- Speech bubble from child -->
+  <g>
+    <path d="M125 130 Q120 100 145 95 L195 95 Q210 95 210 110 L210 130 Q210 145 195 145 L155 145 L145 158 L150 145 Z" fill="white" stroke="#444" stroke-width="2"/>
+    <text x="175" y="125" text-anchor="middle" font-size="14" fill="#2A2A2A">Hello!</text>
+  </g>
+
+  <!-- Speech bubble from watch -->
+  <g>
+    <path d="M270 200 Q260 190 270 180 L320 180 Q335 180 335 195 L335 220 Q335 235 320 235 L290 235 L280 248 L285 235 L270 235 Q255 235 255 220 L255 195 Q255 180 270 180 Z" fill="white" stroke="#FF4444" stroke-width="2"/>
+    <text x="295" y="215" text-anchor="middle" font-size="14" fill="#FF4444">Hello!</text>
+  </g>
+
+  <!-- Musical notes -->
+  <g fill="#9B59B6">
+    <text x="345" y="120" font-size="22">♪</text>
+    <text x="370" y="155" font-size="18">♫</text>
+    <text x="355" y="90" font-size="16">♪</text>
+  </g>
+
+  <!-- Title -->
+  <text x="200" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2A2A2A">Listen and Speak!</text>
+</svg>

@@ -1,0 +1,106 @@
+/* Print styling for the children's book.
+ * Each "## Page N" starts a fresh sheet, the picture sits below the
+ * title, and the text sits below the picture. Designed for US Letter
+ * paper but reflows fine on A4.
+ */
+
+@page {
+  size: letter;
+  margin: 0.6in;
+}
+
+body {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Marker Felt", sans-serif;
+  color: #1a1a1a;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.45;
+}
+
+/* Title page styling */
+h1 {
+  font-size: 36pt;
+  text-align: center;
+  margin-top: 2in;
+  color: #1a1a3a;
+}
+
+h1 + p {
+  text-align: center;
+  font-style: italic;
+  font-size: 14pt;
+  color: #555;
+  margin-top: 0.4in;
+}
+
+/* The "For a 6-year-old..." italic line */
+h1 + p + p {
+  text-align: center;
+  font-style: italic;
+  font-size: 12pt;
+  color: #888;
+}
+
+/* The first <hr> after the title page also triggers a page break */
+h1 ~ hr:first-of-type {
+  page-break-after: always;
+  border: none;
+}
+
+/* Each "## Page N" heading starts a new page */
+h2 {
+  page-break-before: always;
+  font-size: 22pt;
+  text-align: center;
+  margin-top: 0.2in;
+  margin-bottom: 0.3in;
+  color: #1a1a3a;
+}
+
+/* Picture under each page heading — center, big, no overflow */
+h2 + p img {
+  display: block;
+  margin: 0.2in auto;
+  width: 6.5in;
+  max-height: 4.5in;
+  border: 2px solid #333;
+  border-radius: 8px;
+}
+
+/* The body paragraphs (small story text) under each picture */
+h2 + p + p,
+h2 + p + p + p,
+h2 + p + p + p + p {
+  font-size: 16pt;
+  text-align: center;
+  margin: 0.18in 0.8in;
+}
+
+/* Suppress the horizontal rules — they show up as ugly lines on print */
+hr {
+  display: none;
+}
+
+/* "About this book" section at the very end */
+h3 {
+  page-break-before: always;
+  font-size: 14pt;
+  margin-top: 0.5in;
+  color: #555;
+}
+
+h3 + p {
+  font-size: 11pt;
+  color: #555;
+  margin: 0.2in 0.8in;
+}
+
+/* Inline code (e.g. file paths) */
+code {
+  font-family: "Menlo", "Consolas", monospace;
+  font-size: 0.9em;
+  background: #f0f0f0;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
