@@ -9,6 +9,7 @@
 #include <Wire.h>
 #include <Arduino_GFX_Library.h>
 #include <XPowersLib.h>
+#include <esp_sleep.h>
 #include <time.h>
 #include <sys/time.h>
 #include <math.h>
@@ -136,6 +137,42 @@ AppId current_app = APP_CLOCK;
 // --- Screen on/off (crown button via AXP2101 power-key IRQ) ---
 static bool screen_on = true;
 
+// --- Inactivity auto-sleep ---
+#define INACTIVITY_TIMEOUT_MS 120000UL  // 2 minutes
+static uint32_t last_activity_ms = 0;
+
+// --- Battery indicator ---
+static int8_t battery_last_pct = -2;
+static bool battery_last_charging = false;
+
+static void draw_battery_icon(int16_t x, int16_t y, uint8_t pct, bool charging) {
+  const int16_t bw = 30, bh = 14;
+  // Erase a slightly larger area so the previous fill never bleeds through
+  gfx->fillRect(x - 1, y - 1, bw + 6, bh + 2, COLOR_BLACK);
+  gfx->drawRect(x, y, bw, bh, COLOR_WHITE);
+  gfx->fillRect(x + bw, y + 4, 3, 6, COLOR_WHITE);
+
+  uint16_t fill_color;
+  if (charging) fill_color = COLOR_CYAN;
+  else if (pct > 50) fill_color = COLOR_GREEN;
+  else if (pct > 20) fill_color = COLOR_YELLOW;
+  else fill_color = COLOR_RED;
+
+  int16_t fill_w = ((bw - 4) * (int)pct) / 100;
+  if (fill_w > 0) gfx->fillRect(x + 2, y + 2, fill_w, bh - 4, fill_color);
+}
+
+// Read PMU and redraw icon if state changed
+static void refresh_battery_icon(bool force) {
+  uint8_t pct = PMU.getBatteryPercent();
+  bool charging = PMU.isCharging();
+  if (force || pct != battery_last_pct || charging != battery_last_charging) {
+    draw_battery_icon(202, 12, pct, charging);
+    battery_last_pct = pct;
+    battery_last_charging = charging;
+  }
+}
+
 static void enter_app() {
   if (current_app == APP_CLOCK) clock_enter();
   else memory_enter();
@@ -179,11 +216,14 @@ void clock_enter() {
   gfx->setFont(nullptr);
   gfx->setTextSize(2);
   gfx->setTextColor(COLOR_GREY);
+  // "Pacific Time" (144px wide) ends at x=192; battery icon starts at x=202 — no overlap
   const char *header = "Pacific Time";
   gfx->setCursor((DISP_WIDTH - (int)strlen(header) * 12) / 2, 20);
   gfx->print(header);
   clock_last_second = -1;
   clock_last_minute = -1;
+  battery_last_pct = -2;  // force redraw
+  refresh_battery_icon(true);
 }
 
 void clock_tick() {
@@ -224,10 +264,10 @@ void clock_tick() {
     char date_buf[32];
     strftime(date_buf, sizeof(date_buf), "%a %b %d %Y", &tm_local);
 
-    // Redraw header (in case anything corrupted it)
+    // Redraw header — erase only the text region, not the battery icon at x=200+
     gfx->setFont(nullptr);
     gfx->setTextSize(2);
-    gfx->fillRect(0, 10, DISP_WIDTH, 30, COLOR_BLACK);
+    gfx->fillRect(0, 10, 200, 25, COLOR_BLACK);
     gfx->setTextColor(COLOR_GREY);
     const char *header = "Pacific Time";
     gfx->setCursor((DISP_WIDTH - (int)strlen(header) * 12) / 2, 20);
@@ -239,6 +279,11 @@ void clock_tick() {
     gfx->setCursor((DISP_WIDTH - (int)strlen(date_buf) * 12) / 2, 210);
     gfx->print(date_buf);
     Serial.printf("%s %s PT\n", date_buf, big);
+  }
+
+  // Refresh battery icon roughly every 30 seconds
+  if (tm_local.tm_sec == 0 || tm_local.tm_sec == 30) {
+    refresh_battery_icon(false);
   }
 }
 
@@ -475,6 +520,9 @@ void setup() {
 
   Wire1.begin(TP_SDA, TP_SCL);
 
+  // PMU INT is active-low open-drain; used as light-sleep wake source
+  pinMode(PMU_INT, INPUT_PULLUP);
+
   pinMode(DISP_BL, OUTPUT);
   digitalWrite(DISP_BL, LOW);
   gfx->begin();
@@ -487,7 +535,9 @@ void setup() {
   settimeofday(&tv, nullptr);
 
   clock_enter();
+  last_activity_ms = millis();
   Serial.println("Ready. Swipe LEFT for Memory game; swipe RIGHT to return.");
+  Serial.println("Crown button: toggle screen. Auto-sleep after 2 min idle.");
 }
 
 void loop() {
@@ -496,14 +546,21 @@ void loop() {
   if (PMU.isPekeyShortPressIrq()) {
     screen_set_on(!screen_on);
     PMU.clearIrqStatus();
+    last_activity_ms = millis();
   }
+
   if (!screen_on) {
-    delay(100);
+    // Enter light sleep until the crown is pressed (PMU INT pin goes low).
+    // Drops ESP32 to ~1mA. Code resumes here on wake; next loop iteration
+    // sees the button IRQ and re-enables the display.
+    esp_sleep_enable_ext0_wakeup((gpio_num_t)PMU_INT, 0);
+    esp_light_sleep_start();
     return;
   }
 
   int16_t tx, ty;
   GestureType g = poll_gesture(tx, ty);
+  if (g != GESTURE_NONE) last_activity_ms = millis();
   switch (g) {
     case GESTURE_SWIPE_LEFT:
       if (current_app == APP_CLOCK) switch_app(APP_MEMORY);
@@ -521,6 +578,12 @@ void loop() {
 
   if (current_app == APP_CLOCK) clock_tick();
   else memory_tick();
+
+  // Auto-sleep after INACTIVITY_TIMEOUT_MS with no taps, swipes, or button.
+  if (screen_on && (millis() - last_activity_ms > INACTIVITY_TIMEOUT_MS)) {
+    Serial.println("Auto-sleep (inactivity)");
+    screen_set_on(false);
+  }
 
   delay(20);
 }
