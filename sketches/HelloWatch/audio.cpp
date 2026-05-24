@@ -48,10 +48,41 @@ bool audio_record() {
   return true;
 }
 
+// Playback gain. The PDM mic captures at a low level and the MAX98357A's
+// hardware gain pin is fixed on this board, so we amplify in software.
+// Each sample is multiplied by PLAYBACK_GAIN and clipped to int16 range.
+// Tune in 1-step increments — too high gives distortion on loud passages.
+#define PLAYBACK_GAIN 4
+
 bool audio_play() {
   if (!ready || recording == nullptr) return false;
-  Serial.printf("Playing %u bytes\n", (unsigned)recording_len);
-  SPK.playWAV(recording, recording_len);
+  Serial.printf("Playing %u bytes (gain %dx)\n",
+                (unsigned)recording_len, PLAYBACK_GAIN);
+
+  // Copy the recording into a scratch buffer and amplify the PCM samples.
+  // We don't modify `recording` so the next play sounds the same as this one
+  // instead of compounding the gain.
+  uint8_t *scratch = (uint8_t *)ps_malloc(recording_len);
+  if (!scratch) scratch = (uint8_t *)malloc(recording_len);
+  if (!scratch) {
+    Serial.println("Gain alloc failed — playing un-amplified");
+    SPK.playWAV(recording, recording_len);
+    return true;
+  }
+  memcpy(scratch, recording, recording_len);
+
+  // Skip the 44-byte WAV header, then apply gain to each 16-bit sample.
+  int16_t *samples = (int16_t *)(scratch + 44);
+  size_t n_samples = (recording_len - 44) / sizeof(int16_t);
+  for (size_t i = 0; i < n_samples; i++) {
+    int32_t s = (int32_t)samples[i] * PLAYBACK_GAIN;
+    if (s >  32767) s =  32767;
+    if (s < -32768) s = -32768;
+    samples[i] = (int16_t)s;
+  }
+
+  SPK.playWAV(scratch, recording_len);
+  free(scratch);
   return true;
 }
 
