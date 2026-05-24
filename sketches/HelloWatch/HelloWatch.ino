@@ -9,6 +9,7 @@
 #include <Wire.h>
 #include <Arduino_GFX_Library.h>
 #include <XPowersLib.h>
+#include <Adafruit_DRV2605.h>
 #include <esp_sleep.h>
 #include <time.h>
 #include <sys/time.h>
@@ -41,6 +42,15 @@
 
 enum AppId { APP_CLOCK = 0, APP_MEMORY = 1 };
 
+enum GestureType {
+  GESTURE_NONE,
+  GESTURE_TAP,
+  GESTURE_SWIPE_LEFT,
+  GESTURE_SWIPE_RIGHT,
+  GESTURE_SWIPE_UP,
+  GESTURE_SWIPE_DOWN
+};
+
 // Forward declarations (used by screen_set_on() before defs)
 void clock_enter();
 void memory_enter();
@@ -51,6 +61,26 @@ void memory_enter();
 #define TZ_PACIFIC "PST8PDT,M3.2.0,M11.1.0"
 
 XPowersAXP2101 PMU;
+Adafruit_DRV2605 HAPTIC;
+static bool haptic_ready = false;
+
+// Play a single waveform effect from DRV2605 library 1 (see datasheet table).
+// 1=strong click, 14=strong buzz, 24=sharp click, 70=transition ramp up.
+static void haptic_play(uint8_t effect) {
+  if (!haptic_ready) return;
+  HAPTIC.setWaveform(0, effect);
+  HAPTIC.setWaveform(1, 0);  // end of sequence
+  HAPTIC.go();
+}
+
+// Play up to 7 chained effects (slot 7 is reserved for end marker).
+static void haptic_sequence(const uint8_t *effects, uint8_t n) {
+  if (!haptic_ready) return;
+  if (n > 7) n = 7;
+  for (uint8_t i = 0; i < n; i++) HAPTIC.setWaveform(i, effects[i]);
+  HAPTIC.setWaveform(n, 0);
+  HAPTIC.go();
+}
 
 Arduino_DataBus *bus = new Arduino_ESP32SPI(
     DISP_DC, DISP_CS, DISP_SCK, DISP_MOSI, GFX_NOT_DEFINED);
@@ -65,15 +95,6 @@ struct Gesture {
   uint32_t start_ms;
 };
 Gesture gesture = { false, 0, 0, 0, 0, 0 };
-
-enum GestureType {
-  GESTURE_NONE,
-  GESTURE_TAP,
-  GESTURE_SWIPE_LEFT,
-  GESTURE_SWIPE_RIGHT,
-  GESTURE_SWIPE_UP,
-  GESTURE_SWIPE_DOWN
-};
 
 static bool ft_read(int16_t &x, int16_t &y) {
   Wire1.beginTransmission(FT6336U_ADDR);
@@ -469,9 +490,15 @@ void memory_tap(int16_t x, int16_t y) {
     draw_card(mem_second);
     mem_matched_pairs++;
     Serial.printf("MATCH! pairs=%d\n", mem_matched_pairs);
+    haptic_play(24);  // sharp click — satisfying "got it!"
     mem_first = -1;
     mem_second = -1;
-    if (mem_matched_pairs == MEM_N / 2) memory_celebrate();
+    if (mem_matched_pairs == MEM_N / 2) {
+      // Game complete — celebratory rumble: triple ramp + buzz
+      static const uint8_t win_seq[] = { 14, 14, 14, 70 };
+      haptic_sequence(win_seq, 4);
+      memory_celebrate();
+    }
   } else {
     mem_resolve_at = millis() + 900;
   }
@@ -511,11 +538,25 @@ void setup() {
   if (PMU.begin(Wire, AXP2101_SLAVE_ADDRESS, SDA, SCL)) {
     PMU.setALDO2Voltage(3300);
     PMU.enableALDO2();
+    // BLDO2 powers the DRV2605 enable pin — must be on before drv.begin()
+    PMU.setBLDO2Voltage(3300);
+    PMU.enableBLDO2();
     // Enable crown / power-key short-press IRQ for screen on/off toggle
     PMU.clearIrqStatus();
     PMU.enableIRQ(XPOWERS_AXP2101_PKEY_SHORT_IRQ | XPOWERS_AXP2101_PKEY_LONG_IRQ);
   } else {
     Serial.println("PMU init FAILED");
+  }
+
+  // Haptic driver — needs PMU's BLDO2 powered first
+  delay(20);
+  if (HAPTIC.begin(&Wire)) {
+    HAPTIC.selectLibrary(1);              // ROM effect library 1
+    HAPTIC.setMode(DRV2605_MODE_INTTRIG);  // play on .go()
+    haptic_ready = true;
+    Serial.println("Haptic ready");
+  } else {
+    Serial.println("Haptic init FAILED");
   }
 
   Wire1.begin(TP_SDA, TP_SCL);
@@ -550,6 +591,12 @@ void loop() {
   }
 
   if (!screen_on) {
+    // Skip light sleep while plugged into USB — sleep suspends USB CDC,
+    // which makes the serial port disappear and breaks dev flashing.
+    if (PMU.isVbusIn()) {
+      delay(100);
+      return;
+    }
     // Enter light sleep until the crown is pressed (PMU INT pin goes low).
     // Drops ESP32 to ~1mA. Code resumes here on wake; next loop iteration
     // sees the button IRQ and re-enables the display.
