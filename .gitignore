@@ -1,0 +1,17 @@
+# Arduino CLI build artifacts
+build/
+*.elf
+*.bin
+*.hex
+*.map
+
+# Third-party reference clone (not part of this project)
+LilyGoLib/
+
+# macOS
+.DS_Store
+
+# Editor metadata
+.vscode/
+.idea/
+*.swp
