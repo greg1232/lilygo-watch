@@ -4,22 +4,35 @@
 AppId current_app = APP_CLOCK;
 
 void app_enter_current() {
-  if (current_app == APP_CLOCK) clock_enter();
-  else                          memory_enter();
+  switch (current_app) {
+    case APP_CLOCK:  clock_enter();  break;
+    case APP_MEMORY: memory_enter(); break;
+    case APP_VOICE:  voice_enter();  break;
+  }
 }
 
 void app_switch(AppId next) {
   if (next == current_app) return;
   current_app = next;
-  Serial.println(next == APP_CLOCK ? ">> Clock" : ">> Memory");
+  const char *name = (next == APP_CLOCK) ? ">> Clock"
+                   : (next == APP_MEMORY) ? ">> Memory"
+                                          : ">> Voice";
+  Serial.println(name);
   app_enter_current();
 }
 
 void app_tick() {
-  if (current_app == APP_CLOCK) clock_tick();
-  else                          memory_tick();
+  switch (current_app) {
+    case APP_CLOCK:  clock_tick();  break;
+    case APP_MEMORY: memory_tick(); break;
+    case APP_VOICE:  voice_tick();  break;
+  }
 }
 
 void app_handle_tap(int16_t x, int16_t y) {
-  if (current_app == APP_MEMORY) memory_tap(x, y);
+  switch (current_app) {
+    case APP_MEMORY: memory_tap(x, y); break;
+    case APP_VOICE:  voice_tap(x, y);  break;
+    default: break;
+  }
 }

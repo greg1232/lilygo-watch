@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-enum AppId { APP_CLOCK = 0, APP_MEMORY = 1 };
+enum AppId { APP_CLOCK = 0, APP_MEMORY = 1, APP_VOICE = 2 };
 
 extern AppId current_app;
 
@@ -26,3 +26,7 @@ void clock_tick();
 void memory_enter();
 void memory_tick();
 void memory_tap(int16_t x, int16_t y);
+
+void voice_enter();
+void voice_tick();
+void voice_tap(int16_t x, int16_t y);

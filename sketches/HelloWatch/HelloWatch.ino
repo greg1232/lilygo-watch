@@ -24,6 +24,7 @@
 #include "gestures.h"
 #include "power.h"
 #include "apps.h"
+#include "audio.h"
 #include <time.h>
 #include <sys/time.h>
 
@@ -38,6 +39,7 @@ void setup() {
   Serial.println("\nWatch booting...");
 
   hardware_init();
+  audio_init();
 
   setenv("TZ", TZ_PACIFIC, 1);
   tzset();
@@ -46,7 +48,7 @@ void setup() {
 
   app_enter_current();
   power_mark_activity();
-  Serial.println("Ready. Swipe LEFT for Memory; RIGHT for Clock. Crown toggles screen.");
+  Serial.println("Ready. Clock<->Memory: swipe left/right. Clock<->Voice: swipe up/down. Crown: toggle screen.");
 }
 
 void loop() {
@@ -72,6 +74,13 @@ void loop() {
       break;
     case GESTURE_SWIPE_RIGHT:
       if (current_app == APP_MEMORY) app_switch(APP_CLOCK);
+      else if (current_app == APP_VOICE) app_switch(APP_CLOCK);
+      break;
+    case GESTURE_SWIPE_UP:
+      if (current_app == APP_CLOCK) app_switch(APP_VOICE);
+      break;
+    case GESTURE_SWIPE_DOWN:
+      if (current_app == APP_VOICE) app_switch(APP_CLOCK);
       break;
     case GESTURE_TAP:
       Serial.printf("TAP at (%d, %d)\n", tx, ty);
