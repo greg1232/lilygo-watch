@@ -15,6 +15,9 @@ LilyGoLib/
 books/*.pdf
 books/*.html
 
+# WiFi credentials — copy wifi_secrets.h.example and fill in your network
+sketches/HelloWatch/wifi_secrets.h
+
 # Editor metadata
 .vscode/
 .idea/

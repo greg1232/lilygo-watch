@@ -8,5 +8,6 @@ Notes on how this codebase is structured and how to extend it.
 - [apps.md](apps.md) — each app's UX, screen layout, state machine, and the gestures that reach it.
 - [modules.md](modules.md) — per-module reference: `hardware`, `gestures`, `power`, `battery`, `audio`, `apps`.
 - [adding-an-app.md](adding-an-app.md) — recipe for adding a new app from scratch.
+- [wifi.md](wifi.md) — WiFi + NTP time sync setup, secrets file, power impact.
 
 The repo root [README.md](../README.md) has the quick-start. These docs go deeper.

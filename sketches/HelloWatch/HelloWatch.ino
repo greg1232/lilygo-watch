@@ -25,6 +25,7 @@
 #include "power.h"
 #include "apps.h"
 #include "audio.h"
+#include "wifi_sync.h"
 #include <time.h>
 #include <sys/time.h>
 
@@ -43,8 +44,16 @@ void setup() {
 
   setenv("TZ", TZ_PACIFIC, 1);
   tzset();
-  struct timeval tv = { .tv_sec = (time_t)BUILD_EPOCH, .tv_usec = 0 };
-  settimeofday(&tv, nullptr);
+
+  // Try to get accurate time via WiFi + NTP. If that fails (no WiFi
+  // credentials, network down, etc.), fall back to the epoch baked in
+  // at build time by flash.sh.
+  wifi_sync_time(8000);
+  if (!wifi_time_synced()) {
+    struct timeval tv = { .tv_sec = (time_t)BUILD_EPOCH, .tv_usec = 0 };
+    settimeofday(&tv, nullptr);
+    Serial.println("Time: using BUILD_EPOCH fallback");
+  }
 
   app_enter_current();
   power_mark_activity();
