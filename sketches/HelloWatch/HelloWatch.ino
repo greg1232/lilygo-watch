@@ -490,7 +490,8 @@ void memory_tap(int16_t x, int16_t y) {
     draw_card(mem_second);
     mem_matched_pairs++;
     Serial.printf("MATCH! pairs=%d\n", mem_matched_pairs);
-    haptic_play(24);  // sharp click — satisfying "got it!"
+    // Effect 14 = "Strong Buzz - 100%" — sustained, very noticeable
+    haptic_play(14);
     mem_first = -1;
     mem_second = -1;
     if (mem_matched_pairs == MEM_N / 2) {
@@ -551,10 +552,11 @@ void setup() {
   // Haptic driver — needs PMU's BLDO2 powered first
   delay(20);
   if (HAPTIC.begin(&Wire)) {
-    HAPTIC.selectLibrary(1);              // ROM effect library 1
+    HAPTIC.useLRA();                       // T-Watch-S3 uses an LRA actuator
+    HAPTIC.selectLibrary(6);               // ROM library tuned for LRA motors
     HAPTIC.setMode(DRV2605_MODE_INTTRIG);  // play on .go()
     haptic_ready = true;
-    Serial.println("Haptic ready");
+    Serial.println("Haptic ready (LRA, lib 6)");
   } else {
     Serial.println("Haptic init FAILED");
   }
