@@ -48,7 +48,7 @@ void setup() {
   // Try to get accurate time via WiFi + NTP. If that fails (no WiFi
   // credentials, network down, etc.), fall back to the epoch baked in
   // at build time by flash.sh.
-  wifi_sync_time(8000);
+  wifi_sync_time(TZ_PACIFIC, (time_t)BUILD_EPOCH, 8000);
   if (!wifi_time_synced()) {
     struct timeval tv = { .tv_sec = (time_t)BUILD_EPOCH, .tv_usec = 0 };
     settimeofday(&tv, nullptr);

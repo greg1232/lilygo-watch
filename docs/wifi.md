@@ -15,12 +15,13 @@ The watch connects to WiFi once at boot, asks `pool.ntp.org` for the current tim
 
 ## What happens at boot
 
-1. `wifi_sync_time(8000)` is called from `setup()`.
+1. `wifi_sync_time(TZ_PACIFIC, BUILD_EPOCH, 8000)` is called from `setup()`.
 2. WiFi connects in station mode. Timeout: 8 seconds.
-3. On success, NTP is triggered against `pool.ntp.org` (fallback: `time.nist.gov`).
+3. On success, `configTzTime()` is called — this atomically sets the system TZ and starts SNTP polling against Google's anycast IP, `time.google.com`, and `pool.ntp.org` in order.
 4. We wait up to 5 seconds for the system clock to be set.
-5. WiFi disconnects and the radio is powered off (`WiFi.mode(WIFI_OFF)`) — saves ~70 mA.
-6. If WiFi failed or NTP timed out, `BUILD_EPOCH` (baked at compile time by `flash.sh`) is used as the fallback so the clock is at least close.
+5. **Sanity check**: if the NTP-set time is more than 60 seconds *before* `BUILD_EPOCH`, the response is rejected as implausible (time only moves forward; the firmware was built at `BUILD_EPOCH`). The fallback below kicks in.
+6. WiFi disconnects and the radio is powered off (`WiFi.mode(WIFI_OFF)`) — saves ~70 mA.
+7. If WiFi failed, NTP timed out, or sanity check rejected the time, `BUILD_EPOCH` (baked at compile time by `flash.sh`) is used so the clock is within a minute of correct.
 
 Total boot delay: up to ~13 seconds in the worst case (8s WiFi + 5s NTP), typically 2–4 seconds when the network is healthy.
 
@@ -38,7 +39,7 @@ WiFi: NTP synced to 2026-05-24 11:08:35 PT
 WiFi: disconnected
 ```
 
-On failure:
+On WiFi failure:
 ```
 WiFi: connecting to 'solus'.........................
 WiFi: connect failed (status=6)
@@ -46,6 +47,20 @@ Time: using BUILD_EPOCH fallback
 ```
 
 `status=6` means `WL_DISCONNECTED` — usually a typo'd SSID, wrong password, or network out of range.
+
+On implausible NTP response (seen with at least one home network — root cause unknown but consistently reproducible):
+```
+WiFi: NTP returned 1779696230 but build was at 1779737945 (41715 sec earlier) — implausible, rejecting
+WiFi: disconnected
+Time: using BUILD_EPOCH fallback
+```
+
+This means SNTP got a response from the server, but the timestamp was earlier than the moment the firmware was compiled — physically impossible. Could be:
+- A NAT/firewall mangling UDP/123 packets in transit
+- An SNTP module quirk on this ESP32 core version
+- The server itself returning bogus time (very unusual for major NTP services)
+
+Curiously, the same network's Mac running `sntp pool.ntp.org` returns the correct time, so it's specific to the ESP32 SNTP path. The sanity check ensures the clock is still useful in this case.
 
 ## Power impact
 
