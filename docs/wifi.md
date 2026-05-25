@@ -1,6 +1,12 @@
-# WiFi + NTP time sync
+# WiFi time sync
 
-The watch connects to WiFi once at boot, asks `pool.ntp.org` for the current time, and disconnects to save power. Net effect: the clock starts at the correct time even after long power-off, with no `BUILD_EPOCH` recompile dance.
+The watch connects to WiFi once at boot, fetches the current time from the `Date:` header of an HTTPS HEAD request to `www.google.com`, sets the system clock, and disconnects to save power. Net effect: the clock starts at the correct time (~2 second accuracy) even after long power-off, with no `BUILD_EPOCH` recompile dance.
+
+## Why HTTPS instead of NTP?
+
+The previous version used SNTP against `pool.ntp.org` / `time.google.com`. On at least one home network we developed against, those NTP responses came back consistently ~11.6 hours before reality, even though the same network's macOS `sntp(8)` worked fine. The root cause was never fully diagnosed — possibly NAT mangling UDP/123 packets in a way that confuses lwIP's SNTP path. Switching to HTTPS over TCP/443 sidesteps the issue entirely.
+
+The Date header of any HTTPS response carries the server's UTC time. We just do a `HEAD /` (no body transfer), parse the RFC 1123 date, and `settimeofday()`. Same trick `curl`, browsers, and most system clocks use.
 
 ## Setting up credentials
 
@@ -17,11 +23,12 @@ The watch connects to WiFi once at boot, asks `pool.ntp.org` for the current tim
 
 1. `wifi_sync_time(TZ_PACIFIC, BUILD_EPOCH, 8000)` is called from `setup()`.
 2. WiFi connects in station mode. Timeout: 8 seconds.
-3. On success, `configTzTime()` is called — this atomically sets the system TZ and starts SNTP polling against Google's anycast IP, `time.google.com`, and `pool.ntp.org` in order.
-4. We wait up to 5 seconds for the system clock to be set.
-5. **Sanity check**: if the NTP-set time is more than 60 seconds *before* `BUILD_EPOCH`, the response is rejected as implausible (time only moves forward; the firmware was built at `BUILD_EPOCH`). The fallback below kicks in.
-6. WiFi disconnects and the radio is powered off (`WiFi.mode(WIFI_OFF)`) — saves ~70 mA.
-7. If WiFi failed, NTP timed out, or sanity check rejected the time, `BUILD_EPOCH` (baked at compile time by `flash.sh`) is used so the clock is within a minute of correct.
+3. `setenv("TZ", "PST8PDT,...")` + `tzset()` so `localtime()` produces Pacific time once the system clock is set.
+4. **HTTPS HEAD to `https://www.google.com/`** with cert verification skipped (we're only reading a header, not authenticating). The `Date:` response header is parsed with `strptime()` and converted to a Unix epoch.
+5. **Sanity check**: if the returned time is more than 60 seconds *before* `BUILD_EPOCH`, reject (time only moves forward; the firmware was just built).
+6. On success, `settimeofday()` sets the system clock.
+7. WiFi disconnects and the radio is powered off (`WiFi.mode(WIFI_OFF)`) — saves ~70 mA.
+8. If WiFi failed, HTTPS failed, or sanity check rejected the time, `BUILD_EPOCH` (baked at compile time by `flash.sh`) is used so the clock is within a minute of correct.
 
 Total boot delay: up to ~13 seconds in the worst case (8s WiFi + 5s NTP), typically 2–4 seconds when the network is healthy.
 
@@ -34,8 +41,8 @@ If `wifi_secrets.h` doesn't exist, the build still succeeds (`wifi_sync.cpp` use
 Serial output on a successful sync:
 ```
 WiFi: connecting to 'solus'....
-WiFi: connected, IP 192.168.1.42, RSSI -52
-WiFi: NTP synced to 2026-05-24 11:08:35 PT
+WiFi: connected, IP 192.168.4.77, RSSI -69
+WiFi: time synced via HTTPS to 2026-05-25 12:49:41 PM PT (epoch=1779738581)
 WiFi: disconnected
 ```
 
@@ -48,19 +55,12 @@ Time: using BUILD_EPOCH fallback
 
 `status=6` means `WL_DISCONNECTED` — usually a typo'd SSID, wrong password, or network out of range.
 
-On implausible NTP response (seen with at least one home network — root cause unknown but consistently reproducible):
+On HTTPS failure (no internet, captive portal, DNS broken):
 ```
-WiFi: NTP returned 1779696230 but build was at 1779737945 (41715 sec earlier) — implausible, rejecting
-WiFi: disconnected
+WiFi: HTTPS HEAD failed (-1 / read Timeout)
+WiFi: HTTPS time fetch failed
 Time: using BUILD_EPOCH fallback
 ```
-
-This means SNTP got a response from the server, but the timestamp was earlier than the moment the firmware was compiled — physically impossible. Could be:
-- A NAT/firewall mangling UDP/123 packets in transit
-- An SNTP module quirk on this ESP32 core version
-- The server itself returning bogus time (very unusual for major NTP services)
-
-Curiously, the same network's Mac running `sntp pool.ntp.org` returns the correct time, so it's specific to the ESP32 SNTP path. The sanity check ensures the clock is still useful in this case.
 
 ## Power impact
 
@@ -75,7 +75,7 @@ Connect-once-then-off keeps the battery hit minimal.
 
 ## Future: re-sync on a schedule
 
-Right now NTP only runs at boot. The ESP32's RTC drifts ~10 ppm = ~1 second per day. For multi-day battery operation, you'd want to re-sync once an hour or so. A small `power_set_screen` hook could trigger `wifi_sync_time()` on every wake from sleep.
+Right now the HTTPS sync only runs at boot. The ESP32's RTC drifts ~10 ppm = ~1 second per day. For multi-day battery operation, you'd want to re-sync once an hour or so. A small `power_set_screen` hook could trigger `wifi_sync_time()` on every wake from sleep.
 
 ## Security note
 
