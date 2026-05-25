@@ -10,4 +10,10 @@ Notes on how this codebase is structured and how to extend it.
 - [adding-an-app.md](adding-an-app.md) — recipe for adding a new app from scratch.
 - [wifi.md](wifi.md) — WiFi + NTP time sync setup, secrets file, power impact.
 
+## Design
+
+Forward-looking design docs for features not yet built:
+
+- [design/audio-over-wifi.md](design/audio-over-wifi.md) — how the watch could play audio files: download, streaming, hybrid, format tradeoffs, recommendation.
+
 The repo root [README.md](../README.md) has the quick-start. These docs go deeper.
