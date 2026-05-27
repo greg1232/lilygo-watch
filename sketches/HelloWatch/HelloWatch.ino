@@ -77,6 +77,15 @@ void loop() {
   int16_t tx, ty;
   GestureType g = poll_gesture(tx, ty);
   if (g != GESTURE_NONE) power_mark_activity();
+  // Any swipe in Invaders is an "escape" back to Clock — kids should always
+  // be able to bail out of the secret game without learning a specific gesture.
+  if (current_app == APP_INVADERS &&
+      (g == GESTURE_SWIPE_LEFT || g == GESTURE_SWIPE_RIGHT ||
+       g == GESTURE_SWIPE_UP   || g == GESTURE_SWIPE_DOWN)) {
+    app_switch(APP_CLOCK);
+    g = GESTURE_NONE;
+  }
+
   switch (g) {
     case GESTURE_SWIPE_LEFT:
       if (current_app == APP_CLOCK) app_switch(APP_MEMORY);
